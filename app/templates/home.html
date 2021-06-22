@@ -1,0 +1,203 @@
+{% extends 'basic.html' %}
+
+{% block body %}
+{% load static %}
+{% load custtags %}
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="{% static 'img/img1.jpg'%}" alt="First slide" height="400" >
+       <div class="carousel-caption d-none d-md-block">
+        <h5 class="bg-warning text-dark font-weight-bold">Our promise is to give fresh veggies </h5>
+        <p>All the vegis we provide are organic examined by profesinals and went through many test befoer reaching your door steps</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="{% static 'img/img2.jpg'%}" alt="Second slide" height="400">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="{% static 'img/img3.jpg'%}" alt="Third slide" height="400">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+<!-- cards  crusels go here -->
+{% for key,val in slides.items %}
+<h3 class="mx-4 " style="color: #D1DB56">{{ key|capfirst }} </h3>
+<div id="{{key}}" class="carousel slide m-4 " data-ride="carousel">
+  <ol class="carousel-indicators">
+  {% with v=val|times %}
+  {% for i in v %}  
+  
+    <li data-target="#{{key}}" data-slide-to={{forloop.counter0}} ></li>
+
+    
+{% endfor %}
+{% endwith %}
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active ">
+      <!-- cards go here -->
+      <div class="card-deck" style="background-color: #5E5948 ">
+        {% if val|lambi >= 1 and val|lambi <= 3 %}
+        {% with val|rang as range %}
+        {% for i in range %}
+        {% with val.2|list_item:forloop.counter0 as veggi %}
+
+        <div class="col-xl-4 col-lg-4 col-sm-12">
+        <div class="card">
+          <img class="card-img-top" src="/media/{{veggi.img}}" alt="Card image cap" height="190" width="30">
+          <div class="card-body">
+            <h5 class="card-title">{{veggi.name}}</h5>
+            <p class="card-text">taji Bhaji</p>
+            <p> {{veggi.prise}} RS
+            </p>
+            <p class="mx-4" id='{{veggi.name}}'> <input type="button" class=" add btn btn-danger" value='+' name="plus">
+            <input type="button" class="btn btn-danger remove " value='-' name="minus">
+            </p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          </div>
+        </div>
+        </div>
+        {% endwith %}
+        {% endfor %}
+        {% endwith %}
+        {% elif val|lambi > 3 %}
+        {% for i in '111' %}
+        {% with val.2|list_item:forloop.counter0 as veggi %}
+
+        <div class="card">
+          <img class="card-img-top" src="/media/{{veggi.img}}" alt="Card image cap" height="190" width="30">
+          <div class="card-body">
+            <h5 class="card-title">{{veggi.name}}</h5>
+            <p class="card-text">hirvi bhaji</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <p> {{veggi.prise}} RS
+            </p>
+            <p class="mx-4" id='{{veggi.name}}'> <input type="button" class=" add btn btn-danger" value='+' name="plus">
+            
+            <input type="button" class="btn btn-danger remove" value='-' name="minus">
+            </p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          </div>
+        </div>
+        {% endwith %}
+        {% endfor %}
+        {% endif %}
+      </div>
+
+    </div>
+  {% with v=val|times  %}
+  {% with lis=val.2 %}
+  {% for i in v %}
+    {% with lis=lis|trim:forloop.counter %}
+    <div class="carousel-item ">
+      <!-- cards go here -->
+      <div class="card-deck" style="background-color: #5E5948 ">
+        {% for i in "111" %}
+        {% with lis|list_item:forloop.counter0 as veggi %}
+        {% if  veggi %}
+        <div class="col-xl-4 col-lg-4 col-sm-12">
+        <div class="card">
+          <img class="card-img-top" src="/media/{{veggi.img}}" alt="Card image cap" height="190" width="30">
+          <div class="card-body">
+            <h5 class="card-title">{{veggi.name}}</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <p> {{veggi.prise}} RS
+            </p>
+            <p class="mx-4"id='{{veggi.name}}'> <input type="button" class=" add btn btn-danger" value='+' name="plus">
+             <input type="button" class="btn btn-danger remove" value='-' name="minus">
+            </p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          </div>
+        </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% endfor %}
+      </div>
+    </div>
+
+      {% endwith %}
+      {% endfor %}
+    {% endwith %}
+    {% endwith %}
+  </div>
+  <a class="carousel-control-prev" href="#{{key}}" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#{{key}}" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+
+</div>
+
+
+{% endfor %}
+<script type="text/javascript">
+$(document).ready(()=>{
+    
+   
+    
+    $(document).on('click','.remove',function(){ 
+        var v=$(this).parent().attr('id');
+        
+          $.ajax({
+    url: "{% url 'cart' %}",
+    cache:'false',
+    data:{'veggi':v,
+        'do':'remove'
+    },
+    dataType: 'text',
+    type:"GET",
+    success: function(data){
+      //alert(data);
+    },
+    error: function(data){
+      alert('error; '+ eval(error));
+    }
+  });
+  });
+  
+  // remve itom from cart or reduce the quntity
+    
+    $(document).on('click','.add',function(){ 
+        var v=$(this).parent().attr('id');
+        alert(v)
+          $.ajax({
+    url: "{% url 'cart' %}",
+    cache:'false',
+    data:{'veggi':v,
+        'do':'add',
+    },
+    dataType: 'text',
+    type:"GET",
+    success: function(data){
+      //alert(data);
+    },
+    error: function(data){
+      alert('error; '+ eval(error));
+    }
+  });
+  });
+  
+  })
+</script>
+{% endblock %}

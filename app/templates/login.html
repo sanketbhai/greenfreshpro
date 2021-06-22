@@ -1,0 +1,26 @@
+{% extends 'basic.html' %}
+{% block body %}
+<div class=" container  center text-center border border-bold border-success p-4  my-2">
+	 {% load static %}
+	 <div class="container-fluid">
+	 <img src="{% static 'logo.png' %}" height="40" width="40" class="m-0 pull-right p-0">
+	<h1 class="font-weight-bold font-italic text-light pull-left m-0 p-0 ">{{type}}</h1>
+	</div>
+	<form  action="{% url type %}" method="POST">
+		{% csrf_token %}
+{% for field in form %}
+	<div class="row">
+		<div class="col text-light font-weight-bold">
+			{{field.label_tag}}
+		</div>
+		<div class="col">
+			{{field}} <br>
+		</div>
+	
+	</div>
+
+{% endfor %}
+<input type="submit"  class="btn btn-danger" name="submit" value="{{type}}">	
+	</form>
+</div>
+{% endblock %}

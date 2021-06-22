@@ -1,0 +1,54 @@
+{% extends 'basic.html' %}
+
+
+{% block body %}
+<br /><br /><br />
+
+    
+    
+    <table class="table bg-light">
+  <thead>
+    <tr>
+      <th scope="col">product</th>
+      <th scope="col">qty</th>
+      <th scope="col">price</th>
+     <th scope="col">total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in data %}
+    
+    <tr>
+    <td>{{ row.prod.name }}</td>
+    <td>{{ row.qty }}
+    </td>
+    <td>{{ row.prod.prise}}</td>
+    <td>{{ row.total}}</td>
+    </tr>
+    {% endfor %}
+     <tfoot>
+  <td>Total Price</td>
+    <td></td>
+    <td id='total'></td>
+  </tfoot>
+  </tbody>
+</table>
+<span class="text-light">
+kindly check all products and total price before you procide once you are done so,
+
+Now go ahed and place order just click checkout 
+</span>
+<a href="{% url 'order' %} "class="btn btn-danger"> Checkout </a>
+
+<script type="text/javascript">
+$(document).ready(()=>{
+    var sum=0;
+    
+        {% for row in data %}
+        sum=sum + {{ row.total }};
+        {% endfor %}
+    $('#total').html(sum +'Rs');
+    
+    });
+</script>
+{% endblock %}

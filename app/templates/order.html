@@ -1,0 +1,152 @@
+{% extends 'basic.html' %}
+
+
+{% block body %}
+<br /><br /><br />
+
+    {% load static %}
+    
+    <table class="table bg-light">
+  <thead>
+    <tr>
+      <th scope="col">product</th>
+      <th scope="col">qty</th>
+      <th scope="col">price</th>
+      <th scope="col">total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in data %}
+    
+    <tr>
+    <td>{{ row.prod.name }}</td>
+    <td>{{ row.qty }}
+    </td>
+    <td>{{ row.prod.prise}}</td>
+    <td>{{ row.total}}</td>
+    </tr>
+    {% endfor %}
+     <tfoot>
+ 
+  </tfoot>
+  </tbody>
+</table>
+<div class="container text-light">
+    kindly check all items quntity befor you procide total amount <span class="text-danger"id="total"></span> will be decucted from your account when you place order
+</div>
+<hr class="bg-light"/>
+<!-- form for adress exist in database -->
+    {% if adress %}
+ <div class="container">
+<form class="" action="{% url 'order' %}" method="POST" accept-charset="utf-8">
+    {% csrf_token %}
+
+
+    <div class="form-group text-light ">
+    <label for="  exampleFormControlSelect1">Select from previously used adresses and proceed else go below and order to new adress</label>
+    <select class="form-control" name="selected" id="exampleFormControlSelect1">
+      <option selected disabled></option>
+    {% for add in adress %}
+      <option value='{{add.id}}'>{{add.adress}}</option>
+    {% endfor %}
+    </select>
+  </div>
+ 
+  <input type="submit"  class="btn btn-danger" value="Proceed" id="rzp-button1"/>
+  </div>
+  <hr class=" bg-light"/>
+  {% endif %}
+    
+</form>
+<div class=" text-light container">
+    order will be deliver to adress you provide below so kindly provide adress and proceed to payment
+</div>
+<form  action="{% url 'order' %}" class="container" method="POST">
+		{% csrf_token %}
+{% for field in form %}
+	<div class="row">
+		<div class="col text-light font-weight-bold">
+			{{field.label_tag}}
+		</div>
+		<div class="col">
+			{{field}} <br>
+		</div>
+	
+	</div>
+
+{% endfor %}
+<input type="submit"  class="btn center btn-danger" name="submit" value="Proceed" id="rzp-button1">	
+
+</form>
+
+{% if flag %}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "{{key}}", // Enter the Key ID generated from the Dashboard
+    "amount": "{{amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "GreenFresh",
+    "description": "Test Transaction",
+    "image": "{% static 'logo.png' %}",
+    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    
+	// Function run after succesful
+	"handler": function (response){    
+		var url = '{% url "payment" %}';
+		var form = $('<form action="' + url + '" method="post">' +
+   '{% csrf_token %}'+
+		  '<input type="text" name="payment_id" value="' + response.razorpay_payment_id + '" />' +
+		  '</form>');
+		$('body').append(form);
+		form.submit();
+       // alert(response.razorpay_payment_id);
+      //  alert(response.razorpay_order_id);
+      //  alert(response.razorpay_signature)
+    },
+	// Customer Data
+    "prefill": {
+        "name": '{{name}}',
+        "email": '{{email}}',
+        "contact": "9421477719"
+    },
+    "notes": {
+        "address": '{{adress}}'
+    },
+    "theme": {
+        "color": "#33ff33"
+    }
+};
+var rzp1 = new Razorpay(options);
+// function run after error
+rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+$(document).ready( function(e){
+    rzp1.open();
+    e.preventDefault();
+});
+</script>
+
+{% endif %}
+
+<script type="text/javascript">
+$(document).ready(()=>{
+    var sum=0;
+    
+        {% for row in data %}
+        sum=sum + {{ row.total }};
+        {% endfor %}
+    $('#total').html(sum+'Rs');
+    
+    
+    });
+</script>
+{% endblock %}
