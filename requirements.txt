@@ -13,3 +13,6 @@ razorpay==1.2.0
 requests==2.25.1
 sqlparse==0.4.1
 urllib3==1.26.5
+gunicorn==19.7.1
+psycopg2==2.7.3.2
+django-heroku==0.3.1
