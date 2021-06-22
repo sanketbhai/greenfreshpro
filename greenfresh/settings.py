@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,5 +129,5 @@ import os
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-RAZORPAY_KEY_ID ='rzp_test_ijoglMdqJq6WJU'
-RAZORPAY_KEY_SECRET='fB9vTLZx3o60vqEXqK6gnZpl'
+RAZORPAY_KEY_ID =os.environ['KEY_ID']
+RAZORPAY_KEY_SECRET=os.environ['KEY_SECRET']
