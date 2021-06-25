@@ -21,7 +21,7 @@ class Product(models.Model):
     name= models.CharField(max_length=50,unique=True)
     cate = models.CharField(max_length=50)
     prise=models.IntegerField()
-    img=models.ImageField(upload_to="/media/app/img")
+    img=models.ImageField(upload_to="media/app/img")
 
     
 class Cart(models.Model):
