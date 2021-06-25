@@ -53,7 +53,7 @@
     <div class="carousel-item active ">
       <!-- cards go here -->
       <div class="card-deck" style="background-color: #5E5948 ">
-        {% if val|lambi >= 1 and val|lambi <= 3 %}
+        {% if val|lambi >= 1 and val|lambi < 3 %}
         {% with val|rang as range %}
         {% for i in range %}
         {% with val.2|list_item:forloop.counter0 as veggi %}
@@ -76,7 +76,7 @@
         {% endwith %}
         {% endfor %}
         {% endwith %}
-        {% elif val|lambi > 3 %}
+        {% elif val|lambi >= 3 %}
         {% for i in '111' %}
         {% with val.2|list_item:forloop.counter0 as veggi %}
 
